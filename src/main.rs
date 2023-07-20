@@ -38,6 +38,41 @@ enum Action {
     Twist,
 }
 
+impl std::fmt::Display for Cube {
+    fn fmt(&self, f: &mut  std::fmt::Formatter<'_>) -> std::fmt::Result {
+        for cubelet in &self.yellow_layer {
+            write!(f, "{}", cubelet.top)?
+        }
+        writeln!(f, "")?;
+        for cubelet in &self.yellow_layer {
+            write!(f, "{}", cubelet.side)?
+        }
+        writeln!(f, "")?;
+        for cubelet in &self.white_layer {
+            write!(f, "{}", cubelet.side)?
+        }
+        writeln!(f, "")?;
+        for cubelet in &self.white_layer {
+            write!(f, "{}", cubelet.top)?
+        }
+        Ok(())
+    }
+}
+
+impl std::fmt::Display for Color {
+    fn fmt(&self, f: &mut  std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let c = match self {
+            Color::Red => '🟥',
+            Color::Green =>'🟩' ,
+            Color::Blue => '🟦',
+            Color::Orange => '🟧',
+            Color::Yellow => '🟨',
+            Color::White => '⬜',
+        };
+        write!(f, "{}", c)
+    }
+}
+
 impl Cube {
     fn is_solved(&self) -> bool {
         for i in 0..N_CUBES {
@@ -373,5 +408,5 @@ fn main() {
             cube = cube.do_action(action);
         }
     }
-    println!("final cube: {cube:#?}");
+    println!("final cube: {cube}");
 }
